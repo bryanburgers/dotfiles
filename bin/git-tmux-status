@@ -1,0 +1,95 @@
+#!/bin/bash
+
+CWD=$1
+
+COLOR_RED="#[fg=red]"
+COLOR_GREEN="#[fg=green]"
+COLOR_YELLOW="#[fg=yellow]"
+COLOR_CYAN="#[fg=cyan]"
+COLOR_WHITE="#[fg=white]"
+COLOR_BLUE="#[fg=blue]"
+COLOR_GRAY="#[fg=gray]"
+COLOR_RESET="#[fg=default]"
+
+# Git stuff.
+is_git_repo() {
+    $(git -C $CWD rev-parse --is-inside-work-tree &> /dev/null)
+}
+
+is_git_dir() {
+    $(git -C $CWD rev-parse --is-inside-git-dir 2> /dev/null)
+}
+
+get_git_branch() {
+    local branch_name
+
+    # Get the short symbolic ref
+    branch_name="${COLOR_GREEN}$(git -C $CWD symbolic-ref --quiet --short HEAD 2> /dev/null)" ||
+    # If HEAD isn't a symbolic ref, get the short SHA
+    branch_name="${COLOR_YELLOW}$(git -C $CWD rev-parse --short HEAD 2> /dev/null)" ||
+    # Otherwise, just give up
+    branch_name="${COLOR_RED}(unknown)"
+
+    printf $branch_name
+}
+
+get_git_ahead_behind() {
+    local ahead behind aheadbehind
+    ahead=$(git -C $CWD status --short --branch | grep "##.*ahead" | sed -Ee "s/.*ahead ([0-9]+).*/\1/")
+    behind=$(git -C $CWD status --short --branch | grep "##.*behind" | sed -Ee "s/.*behind ([0-9]+).*/\1/")
+    if [[ -n $ahead ]]; then
+    	ahead="+$ahead"
+    fi
+    if [[ -n $behind ]]; then
+    	behind="-$behind"
+    fi
+
+    aheadbehind="${COLOR_GREEN}$ahead${COLOR_RED}$behind"
+
+    echo $aheadbehind
+}
+
+# Git status information
+prompt_git() {
+    local git_info git_state uc us ut st
+
+    if ! is_git_repo || is_git_dir; then
+        return 1
+    fi
+    
+    TOPLEVEL=$(git -C $CWD rev-parse --show-toplevel)
+
+    git_info="$(get_git_branch)${COLOR_WHITE}$(get_git_ahead_behind)"
+
+    # Check for uncommitted changes in the index
+    if ! $(git -C $TOPLEVEL diff --quiet --ignore-submodules --cached); then
+        uc="${COLOR_GREEN}!"
+    fi
+
+    # Check for unstaged changes
+    if ! $(git -C $TOPLEVEL diff-files --quiet --ignore-submodules --); then
+        us="${COLOR_RED}!"
+    fi
+
+    # Check for untracked files
+    if [ -n "$(git -C $TOPLEVEL ls-files --others --exclude-standard)" ]; then
+        ut="${COLOR_RED}+"
+    fi
+
+    # Check for stashed files
+    if $(git -C $TOPLEVEL rev-parse --verify refs/stash &>/dev/null); then
+    	# Yellow $
+        st="${COLOR_YELLOW}$"
+    fi
+
+    git_state=$uc$us$ut$st
+
+    # Combine the branch name and state information
+    if [[ $git_state ]]; then
+        git_info="$git_info $git_state"
+    fi
+
+    printf " ${COLOR_GREEN}${git_info}"
+}
+
+echo $(prompt_git)
