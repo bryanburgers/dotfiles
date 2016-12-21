@@ -2,7 +2,12 @@ filetype plugin indent on
 syntax on
 au FileType gitcommit set tw=72
 
-call plug#begin('~/.vim/plugins')
+" Runtime
+set directory='~/tmp,/var/tmp,/tmp'
+set runtimepath^=$DOTDIR/.vim
+
+
+call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'scrooloose/nerdtree'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'vim-syntastic/syntastic'
@@ -26,3 +31,6 @@ let g:syntastic_check_on_wq = 0
 
 " ESLint
 let g:syntastic_javascript_checkers = ['eslint']
+
+" My own settings
+set tabstop=4

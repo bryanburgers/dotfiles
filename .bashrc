@@ -1,7 +1,17 @@
 export CLICOLOR=1
 
-alias ll='ls -alF'
+export DOTDIR="$( (readlink -f ~/.bashrc || echo "$HOME/dotfiles/.bashrc") 2> /dev/null | xargs dirname)"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export PATH="$DOTDIR/bin:~/bin:$PATH"
+export FZF_DEFAULT_COMMAND='ag -g ""'
+export EDITOR=vim
+export VIMINIT="so $DOTDIR/.vimrc"
+
 alias dockerps='docker ps --format="table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
+alias tmux="tmux -2 -f $DOTDIR/.tmux.conf"
+alias ll='ls -alF'
+alias vim='vi'
 
 COLOR_RED="\[\e[0;31m\]"
 COLOR_GREEN="\[\e[0;32m\]"
@@ -120,6 +130,3 @@ fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-export FZF_DEFAULT_COMMAND='ag -g ""'
-export EDITOR=vim
-export PATH="~/bin:$PATH"
