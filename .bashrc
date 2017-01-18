@@ -107,7 +107,7 @@ if [ -z "$TMUX" ]; then
     PS1="${COLOR_CYAN}\u ${COLOR_YELLOW}\w${COLOR_GREEN}\$(prompt_git)${COLOR_RESET} $ "
 else
     PROMPT_COMMAND="tmux refresh-client -S; $PROMPT_COMMAND"
-    PS1="${COLOR_YELLOW}\w${COLOR_RESET}⚡️ "
+    PS1="${COLOR_YELLOW}\w${COLOR_RESET} $ "
 fi
 
 # Eternal bash history.
