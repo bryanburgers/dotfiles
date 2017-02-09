@@ -11,7 +11,7 @@ call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'scrooloose/nerdtree'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'vim-syntastic/syntastic'
-  Plug '/usr/local/opt/fzf'
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   Plug 'tpope/vim-fugitive'
 call plug#end()
