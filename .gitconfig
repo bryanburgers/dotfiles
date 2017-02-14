@@ -1,0 +1,11 @@
+[alias]
+	lg = log --graph --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %C(bold white)%an%Creset: %s %Cgreen%cr%Creset' --abbrev-commit --all
+
+[push]
+	default = upstream
+[rebase]
+	autosquash = true
+[rerere]
+	enabled = true
+[merge]
+	conflictstyle = diff3
