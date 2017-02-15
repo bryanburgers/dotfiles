@@ -8,8 +8,14 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 export EDITOR=vim
 export VIMINIT="so $DOTDIR/.vimrc"
 
+if [ "$(uname)" == "Darwin" ]; then
+	PLATFORM="darwin"
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+	PLATFORM="linux"
+fi
+
 alias dockerps='docker ps --format="table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
-alias tmux="tmux -2 -f $DOTDIR/.tmux.conf"
+alias tmux="tmux -2 -f $DOTDIR/.tmux.$PLATFORM.conf"
 alias ll='ls -alF'
 alias vim='vi'
 
@@ -124,9 +130,16 @@ export HISTFILE=~/.bash_eternal_history
 # http://superuser.com/questions/20900/bash-history-loss
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
+if [ "$PLATFORM" == "darwin" ]; then
+	if [ -f $(brew --prefix)/etc/bash_completion ]; then
+		. $(brew --prefix)/etc/bash_completion
+	fi
 fi
+
+if [ -f /etc/bash_completion ]; then
+	. /etc/bash_completion
+fi
+
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
