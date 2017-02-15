@@ -16,7 +16,11 @@ fi
 
 alias dockerps='docker ps --format="table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
 alias tmux="tmux -2 -f $DOTDIR/.tmux.$PLATFORM.conf"
-alias ll='ls -alF'
+if [ "$PLATFORM" == "darwin" ]; then
+	alias ll='ls -alF'
+else
+	alias ll='ls -alF --color=auto'
+fi
 alias vim='vi'
 
 COLOR_RED="\[\e[0;31m\]"
