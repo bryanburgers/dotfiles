@@ -11,15 +11,12 @@ call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'scrooloose/nerdtree'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'vim-syntastic/syntastic'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
+  Plug 'ctrlpvim/ctrlp.vim'
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 map <C-t> :NERDTreeToggle<CR>
-map <C-n> :Files<CR>
-map <C-p> :Buffers<CR>
 
 " Syntastic settings. These are recommended by Syntastic until you've read the
 " manual. Which I haven't. So, OK. 
