@@ -15,6 +15,7 @@ call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'junegunn/fzf.vim'
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
+  Plug 'fatih/vim-go'
 call plug#end()
 
 map <C-t> :NERDTreeToggle<CR>
