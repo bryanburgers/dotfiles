@@ -16,6 +16,9 @@ call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
   Plug 'fatih/vim-go'
+  Plug 'stephpy/vim-php-cs-fixer'
+  Plug 'lumiliet/vim-twig'
+  Plug 'hashivim/vim-terraform'
 call plug#end()
 
 map <C-t> :NERDTreeToggle<CR>
@@ -32,6 +35,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:go_def_mapping_enabled = 0
+let g:php_cs_fixer_level = 'symfony'
+let g:php_cs_fixer_verbose = 1
 
 let NERDTreeQuitOnOpen=1
 
@@ -40,3 +46,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 
 " My own settings
 set tabstop=4 shiftwidth=4 expandtab
+set showcmd
+
+" Always highlight all Dockerfiles
+autocmd BufRead,BufNewFile Dockerfile.* set filetype=dockerfile
