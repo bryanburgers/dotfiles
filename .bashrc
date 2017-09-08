@@ -16,6 +16,9 @@ fi
 
 alias dockerps='docker ps --format="table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
 alias tmux="tmux -2 -f $DOTDIR/.tmux.$PLATFORM.conf"
+tmux-start() {
+    tmux new -s $(basename $1) -c $1
+}
 if [ "$PLATFORM" == "darwin" ]; then
 	alias ll='ls -alF'
 else
