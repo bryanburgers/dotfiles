@@ -14,6 +14,7 @@ localtime=$(date +"%H:%M")
 localoffset=$(date +"%:z")
 utcdate=$(date +"%Y-%m-%d" --utc)
 utctime=$(date +"%H:%MZ" --utc)
+isoweek=$(date +"%V" --utc)
 
 # If the date in the UTC timezone is the same as it is in the current timezone,
 # then displaying the UTC date is just adding time. However, if the dates
@@ -25,4 +26,4 @@ else
   utcdatedisplay="${utcdate}T"
 fi
 
-echo "$localdate / $localtime $localoffset / ${utcdatedisplay}${utctime}"
+echo "$localdate $localtime $localoffset / ${utcdatedisplay}${utctime} / w${isoweek}"
