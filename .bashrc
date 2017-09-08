@@ -16,9 +16,27 @@ fi
 
 alias dockerps='docker ps --format="table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
 alias tmux="tmux -2 -f $DOTDIR/.tmux.$PLATFORM.conf"
+
 tmux-start() {
-    tmux new -s $(basename $1) -c $1
+    SESSION=$(basename $1)
+    CWD=$(readlink -f $1)
+    tmux has-session -t $SESSION 2>/dev/null
+    if [ "$?" -eq 1 ]; then
+        tmux new-session -d -s $SESSION -c $CWD -n editor \; \
+            send-keys -t $SESSION:0 vi Enter \; \
+            new-window -t $SESSION:1 -n git -c $CWD -d \; \
+            send-keys -t $SESSION:1 "git fetch && git lg" Enter
+    fi
+
+    if [ -z ${TMUX+x} ]; then
+        # We're not in tmux. Attach to the session.
+        tmux attach-session -t $SESSION
+    else
+        # We're in tmux. Switch to the session.
+        tmux switch-client -t $SESSION
+    fi
 }
+
 if [ "$PLATFORM" == "darwin" ]; then
 	alias ll='ls -alF'
 else
