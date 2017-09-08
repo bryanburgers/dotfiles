@@ -40,6 +40,7 @@ let g:php_cs_fixer_level = 'symfony'
 let g:php_cs_fixer_verbose = 1
 
 let NERDTreeQuitOnOpen=1
+let NERDTreeShowHidden=1
 
 " ESLint
 let g:syntastic_javascript_checkers = ['eslint']
