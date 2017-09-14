@@ -22,6 +22,8 @@ tmux-start() {
     CWD=$(readlink -f $1)
     tmux has-session -t $SESSION 2>/dev/null
     if [ "$?" -eq 1 ]; then
+        # The session does not exist. Create a new session, then start vi in
+        # the first window and git in the second window.
         tmux new-session -d -s $SESSION -c $CWD -n editor \; \
             send-keys -t $SESSION:0 vi Enter \; \
             new-window -t $SESSION:1 -n git -c $CWD -d \; \
