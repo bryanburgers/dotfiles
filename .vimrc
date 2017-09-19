@@ -65,4 +65,4 @@ function! AltCommand(path, vim_command)
     endif
 endfunction
 
-nnoremap <leader>t :w<cr>:call AltCommand(expand('%'), ':e')<cr>
+nnoremap <leader>t :call AltCommand(expand('%'), ':e')<cr>
