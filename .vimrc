@@ -51,3 +51,18 @@ set showcmd
 
 " Always highlight all Dockerfiles
 autocmd BufRead,BufNewFile Dockerfile.* set filetype=dockerfile
+
+" Open up the "alternate file" for the current file. For a X.js file, this will
+" try to open up the X.test.js file in the same folder. Taken from
+" https://github.com/uptech/alt#use-with-vim (but with a hand-rolled `alt`
+" bash script)
+function! AltCommand(path, vim_command)
+    let l:alternate = system("alt " . a:path)
+    if empty(l:alternate)
+        echo "No alternate file for " . a:path . " exists!"
+    else
+        exec a:vim_command . " " . l:alternate
+    endif
+endfunction
+
+nnoremap <leader>t :w<cr>:call AltCommand(expand('%'), ':e')<cr>

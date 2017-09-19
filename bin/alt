@@ -1,0 +1,12 @@
+#!/bin/bash
+
+dir=$(dirname $1)
+base=$(basename $1)
+
+if [[ $base == *.test.js ]]; then
+    file="$dir/${base%%.test.js}.js"
+    [[ -e $file ]] && echo $file
+elif [[ $base == *.js ]]; then
+    file="$dir/${base%%.js}.test.js"
+    [[ -e $file ]] && echo $file
+fi
