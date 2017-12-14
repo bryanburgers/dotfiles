@@ -19,6 +19,7 @@ call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'stephpy/vim-php-cs-fixer'
   Plug 'lumiliet/vim-twig'
   Plug 'hashivim/vim-terraform'
+  Plug 'rust-lang/rust.vim'
 call plug#end()
 
 map <C-t> :NERDTreeToggle<CR>
