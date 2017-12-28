@@ -15,7 +15,6 @@ call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'junegunn/fzf.vim'
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
-  Plug 'fatih/vim-go'
   Plug 'stephpy/vim-php-cs-fixer'
   Plug 'lumiliet/vim-twig'
   Plug 'hashivim/vim-terraform'
@@ -36,7 +35,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:go_def_mapping_enabled = 0
 let g:php_cs_fixer_level = 'symfony'
 let g:php_cs_fixer_verbose = 1
 
