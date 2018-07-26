@@ -9,3 +9,5 @@
 	enabled = true
 [merge]
 	conflictstyle = diff3
+# [core]
+#     excludesfile = /home/bryan/dotfiles/.gitignore_global
