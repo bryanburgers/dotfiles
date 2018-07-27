@@ -19,7 +19,12 @@ alias tmux="tmux -2 -f $DOTDIR/.tmux.$PLATFORM.conf"
 
 tmux-start() {
     SESSION=$(basename $1)
-    CWD=$(readlink -f $1)
+    if [ "$PLATFORM" == "linux" ]; then
+        CWD=$(readlink -f $1)
+    else
+        # readlink -f not available on MacOS
+        CWD=$1
+    fi
     tmux has-session -t $SESSION 2>/dev/null
     if [ "$?" -eq 1 ]; then
         # The session does not exist. Create a new session, then start vi in
