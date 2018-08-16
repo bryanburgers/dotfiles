@@ -51,6 +51,11 @@ set showcmd
 " Always highlight all Dockerfiles
 autocmd BufRead,BufNewFile Dockerfile.* set filetype=dockerfile
 
+" Show tabs and trailing spaces
+hi SpecialKey ctermfg=DarkGray
+set listchars=tab:→\ ,trail:·,precedes:«,extends:»
+set list
+
 " Open up the "alternate file" for the current file. For a X.js file, this will
 " try to open up the X.test.js file in the same folder. Taken from
 " https://github.com/uptech/alt#use-with-vim (but with a hand-rolled `alt`
