@@ -24,6 +24,34 @@ fi
 
 alias tmux="tmux -2 -f $DOTDIR/.tmux.$PLATFORM.conf"
 
+tmux-start() {
+    SESSION=$(basename $1)
+    if [[ "$PLATFORM" == "linux" ]]; then
+        CWD=$(readlink -f $1)
+    else
+        # readlink -f not available on MacOS
+        CWD=$1
+    fi
+    # tmux has-session -t $SESSION 2>/dev/null
+    tmux list-sessions -F "#S" | grep -qe "^${SESSION}$" >/dev/null
+    if [[ "$?" -eq 1 ]]; then
+        # The session does not exist. Create a new session, then start vi in
+        # the first window and git in the second window.
+        tmux new-session -d -s $SESSION -c $CWD -n editor \; \
+            send-keys -t $SESSION:0 vi Enter \; \
+            new-window -t $SESSION:1 -n git -c $CWD -d \; \
+            send-keys -t $SESSION:1 "git fetch && git lg" Enter
+    fi
+
+    if [ -z ${TMUX+x} ]; then
+        # We're not in tmux. Attach to the session.
+        tmux attach-session -t $SESSION
+    else
+        # We're in tmux. Switch to the session.
+        tmux switch-client -t $SESSION
+    fi
+}
+
 if [[ "$PLATFORM" == "darwin" ]]; then
     alias ll='ls -alF'
 else
