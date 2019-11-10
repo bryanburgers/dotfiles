@@ -25,7 +25,8 @@ tmux-start() {
         # readlink -f not available on MacOS
         CWD=$1
     fi
-    tmux has-session -t $SESSION 2>/dev/null
+    # tmux has-session -t $SESSION 2>/dev/null
+    tmux list-sessions -F "#S" | grep -qe "^${SESSION}$" >/dev/null
     if [ "$?" -eq 1 ]; then
         # The session does not exist. Create a new session, then start vi in
         # the first window and git in the second window.
@@ -141,11 +142,14 @@ prompt_git() {
 }
 
 #PS1="${COLOR_CYAN}\u ${COLOR_YELLOW}\w\$(prompt_git)${COLOR_RESET} ⚡️ "
-if [ -z "$TMUX" ]; then
+if [ -z ${SSH_CONNECTION+x} ]; then
     PS1="${COLOR_CYAN}\u ${COLOR_YELLOW}\w${COLOR_GREEN}\$(prompt_git)${COLOR_RESET} $ "
 else
+    PS1="${COLOR_CYAN}\u${COLOR_GRAY}@\h ${COLOR_YELLOW}\w${COLOR_GREEN}\$(prompt_git)${COLOR_RESET} $ "
+fi
+
+if [ ! -z ${TMUX+x} ]; then
     PROMPT_COMMAND="tmux refresh-client -S; $PROMPT_COMMAND"
-    PS1="${COLOR_YELLOW}\w${COLOR_RESET} $ "
 fi
 
 # Eternal bash history.
@@ -160,7 +164,7 @@ export HISTTIMEFORMAT="[%F %T] "
 export HISTFILE=~/.bash_eternal_history
 # Force prompt to write history after every command.
 # http://superuser.com/questions/20900/bash-history-loss
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 if [ "$PLATFORM" == "darwin" ]; then
 	if [ -f $(brew --prefix)/etc/bash_completion ]; then

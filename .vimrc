@@ -19,6 +19,8 @@ call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'lumiliet/vim-twig'
   Plug 'hashivim/vim-terraform'
   Plug 'rust-lang/rust.vim'
+  Plug 'prabirshrestha/async.vim'
+  Plug 'prabirshrestha/vim-lsp'
 call plug#end()
 
 map <C-t> :NERDTreeToggle<CR>
@@ -68,5 +70,16 @@ function! AltCommand(path, vim_command)
         exec a:vim_command . " " . l:alternate
     endif
 endfunction
+
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \ 'whitelist': ['rust'],
+        \ })
+endif
+
+" Auto format Rust
+let g:rustfmt_autosave = 1
 
 nnoremap <leader>t :call AltCommand(expand('%'), ':e')<cr>
