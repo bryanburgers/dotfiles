@@ -1,5 +1,5 @@
 [alias]
-	lg = log --graph --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %C(bold white)%an%Creset: %s %Cgreen%cr%Creset' --abbrev-commit --all
+	lg = log --graph --pretty=format:'%C(yellow)%h%Creset%C(auto)% D%Creset %C(bold white)%an%Creset: %s %Cgreen%cr%Creset' --abbrev-commit --all
 
 [push]
 	default = upstream
@@ -9,5 +9,10 @@
 	enabled = true
 [merge]
 	conflictstyle = diff3
+[core]
+	pager = less --quit-if-one-screen --no-init
 # [core]
 #     excludesfile = /home/bryan/dotfiles/.gitignore_global
+
+# [includeIf "gitdir:~/personal/"]
+#     path = "~/personal/.gitconfig_override"
