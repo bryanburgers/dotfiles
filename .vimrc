@@ -15,12 +15,14 @@ call plug#begin('$DOTDIR/.vim/plugins')
   Plug 'junegunn/fzf.vim'
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
-  Plug 'stephpy/vim-php-cs-fixer'
-  Plug 'lumiliet/vim-twig'
-  Plug 'hashivim/vim-terraform'
   Plug 'rust-lang/rust.vim'
-  Plug 'prabirshrestha/async.vim'
-  Plug 'prabirshrestha/vim-lsp'
+  " Plug 'prabirshrestha/async.vim'
+  " Plug 'prabirshrestha/vim-lsp'
+  Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \ }
+  Plug 'dense-analysis/ale'
 call plug#end()
 
 map <C-t> :NERDTreeToggle<CR>
@@ -37,8 +39,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:php_cs_fixer_level = 'symfony'
-let g:php_cs_fixer_verbose = 1
 
 let NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
@@ -71,15 +71,21 @@ function! AltCommand(path, vim_command)
     endif
 endfunction
 
-if executable('rls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
-        \ 'whitelist': ['rust'],
-        \ })
-endif
+" if executable('rls')
+"     au User lsp_setup call lsp#register_server({
+"         \ 'name': 'rls',
+"         \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+"         \ 'whitelist': ['rust'],
+"         \ })
+" endif
 
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ }
+
+let g:syntastic_rust_checkers = []
 " Auto format Rust
+let g:rustfmt_command = "rustup run nightly rustfmt"
 let g:rustfmt_autosave = 1
 
 nnoremap <leader>t :call AltCommand(expand('%'), ':e')<cr>

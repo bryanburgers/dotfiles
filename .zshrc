@@ -48,7 +48,7 @@ tmux-start() {
         CWD=$1
     fi
     # tmux has-session -t $SESSION 2>/dev/null
-    tmux list-sessions -F "#S" | grep -qe "^${SESSION}$" >/dev/null
+    tmux list-sessions -F "#S" 2>/dev/null | grep -qe "^${SESSION}$" >/dev/null
     if [[ "$?" -eq 1 ]]; then
         # The session does not exist. Create a new session, then start vi in
         # the first window and git in the second window.
