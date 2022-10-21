@@ -3,3 +3,12 @@
 [._]*.sw[a-p]
 [._]s[a-v][a-z]
 [._]sw[a-p]
+
+# vscode directory
+.vscode
+
+# macOS files
+.DS_Store
+
+# Makefiles
+Makefile

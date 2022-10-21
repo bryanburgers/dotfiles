@@ -52,10 +52,7 @@ tmux-start() {
     if [[ "$?" -eq 1 ]]; then
         # The session does not exist. Create a new session, then start vi in
         # the first window and git in the second window.
-        tmux new-session -d -s $SESSION -c $CWD -n editor \; \
-            send-keys -t $SESSION:0 vi Enter \; \
-            new-window -t $SESSION:1 -n git -c $CWD -d \; \
-            send-keys -t $SESSION:1 "git fetch && git lg" Enter
+        tmux new-session -d -s $SESSION -c $CWD
     fi
 
     if [ -z ${TMUX+x} ]; then
@@ -98,3 +95,5 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
